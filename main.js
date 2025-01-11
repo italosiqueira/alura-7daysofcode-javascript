@@ -28,9 +28,9 @@ const movies = [
   ]
 
 window.addEventListener('load', (event) => {
-    movies.forEach(movie => renderMovie(movie));
+    // movies.forEach(movie => renderMovie(movie));
 
-    getPopularMovies();
+    getPopularMovies().then(l => l.forEach(movie => renderMovie(movie)));
 });
 
 function renderMovie(movie) {
@@ -109,7 +109,12 @@ function renderMovie(movie) {
 async function getPopularMovies() {
 
     const url = 'https://api.themoviedb.org/3/movie/popular?' + new URLSearchParams({ language: "pt-BR", page: 1 }).toString();
+    // As per the the movie db doc, it's in the following format: http://image.tmdb.org/t/p/w500/your_poster_path
+    // Sources: https://developers.themoviedb.org/3/getting-started/images
+    //          https://stackoverflow.com/questions/63806137/how-to-fetch-images-from-response-of-themoviedb-api
+    const imageUrl = 'https://image.tmdb.org/t/p/w500';
 
+    var moviesTmdb = [];
     var reqHeaders = new Headers();
     reqHeaders.append("Accept", "application/json");
     reqHeaders.append("Authorization", "Bearer " + API_KEY);
@@ -123,13 +128,26 @@ async function getPopularMovies() {
 
     var authRequest = new Request(url, reqInit);
 
-    fetch(authRequest)
-        .then( response => response.json())
-        .then( json => json.results.forEach((e, i) => console.log((i + 1) + '. ' + e.title)) )
-        .catch(
-            function (error) { 
-                console.log("There has been a problem with your fetch operation: " + error.message);
-            }
-        );
+    try {
+        let response = await fetch(authRequest);
+        let json = await response.json();
+        json.results.forEach(function (e, i) {
+            let movie = {
+                id: e.id,
+                image: imageUrl + e.poster_path,
+                title: e.title,
+                rating: e.vote_average,
+                year: parseInt(e.release_date.substring(0, 4), 10),
+                description: e.overview,
+                isFavorited: false
+            };
+
+            moviesTmdb.push(movie);
+        });
+    } catch (error) {
+        console.log("There has been a problem with your fetch operation: " + error.message);
+    }
+
+    return moviesTmdb;
 
 }
