@@ -1,5 +1,10 @@
 import API_KEY from "./tmdb_api.js"
 
+// As per the the movie db doc, it's in the following format: http://image.tmdb.org/t/p/w500/your_poster_path
+// Sources: https://developers.themoviedb.org/3/getting-started/images
+//          https://stackoverflow.com/questions/63806137/how-to-fetch-images-from-response-of-themoviedb-api
+const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500';
+
 const movies = [
     {
         image: 'https://upload.wikimedia.org/wikipedia/en/1/17/Doctor_Strange_in_the_Multiverse_of_Madness_poster.jpg',
@@ -29,9 +34,26 @@ const movies = [
 
 window.addEventListener('load', (event) => {
     // movies.forEach(movie => renderMovie(movie));
-
     getPopularMovies().then(l => l.forEach(movie => renderMovie(movie)));
+
+    
+    const searchInputElement = document.getElementById('movie-name');
+    searchInputElement.addEventListener('keydown', function (event) {
+        const keyName = event.key;
+
+        if (keyName == "Enter") {
+            let searchString = this.value;
+            if (searchString) {
+                pesquisar(searchString);
+            }
+        }
+    });
 });
+
+function pesquisar(titulo) {
+    limparFilmes();
+    searchMoviesByTitle(titulo).then(l => l.forEach(movie => renderMovie(movie)));
+}
 
 function renderMovie(movie) {
 
@@ -108,11 +130,7 @@ function renderMovie(movie) {
 
 async function getPopularMovies() {
 
-    const url = 'https://api.themoviedb.org/3/movie/popular?' + new URLSearchParams({ language: "pt-BR", page: 1 }).toString();
-    // As per the the movie db doc, it's in the following format: http://image.tmdb.org/t/p/w500/your_poster_path
-    // Sources: https://developers.themoviedb.org/3/getting-started/images
-    //          https://stackoverflow.com/questions/63806137/how-to-fetch-images-from-response-of-themoviedb-api
-    const imageUrl = 'https://image.tmdb.org/t/p/w500';
+    const urlPopularMovies = 'https://api.themoviedb.org/3/movie/popular?' + new URLSearchParams({ language: "pt-BR", page: 1 }).toString();
 
     var moviesTmdb = [];
     var reqHeaders = new Headers();
@@ -126,21 +144,13 @@ async function getPopularMovies() {
         cache: "default",
     }
 
-    var authRequest = new Request(url, reqInit);
+    var authRequest = new Request(urlPopularMovies, reqInit);
 
     try {
         let response = await fetch(authRequest);
         let json = await response.json();
         json.results.forEach(function (e, i) {
-            let movie = {
-                id: e.id,
-                image: imageUrl + e.poster_path,
-                title: e.title,
-                rating: e.vote_average,
-                year: parseInt(e.release_date.substring(0, 4), 10),
-                description: e.overview,
-                isFavorited: false
-            };
+            let movie = jsonToMovie(e);
 
             moviesTmdb.push(movie);
         });
@@ -150,4 +160,63 @@ async function getPopularMovies() {
 
     return moviesTmdb;
 
+}
+
+async function searchMoviesByTitle(title) {
+
+    const urlSearchMovieByTitle = 'https://api.themoviedb.org/3/search/movie?' + new URLSearchParams({ language: "pt-BR", page: 1, query: title }).toString();
+
+    var moviesTmdbFound = [];
+    var reqHeaders = new Headers();
+    reqHeaders.append("Accept", "application/json");
+    reqHeaders.append("Authorization", "Bearer " + API_KEY);
+
+    var reqInit = {
+        method: "GET",
+        headers: reqHeaders,
+        mode: "cors",
+        cache: "default",
+    }
+
+    var authRequest = new Request(urlSearchMovieByTitle, reqInit);
+
+    try {
+        let response = await fetch(authRequest);
+        let json = await response.json();
+        json.results.forEach(function (e, i) {
+            let movie = jsonToMovie(e);
+
+            moviesTmdbFound.push(movie);
+        });
+    } catch (error) {
+        console.log("There has been a problem with your fetch operation: " + error.message);
+    }
+
+    return moviesTmdbFound;
+
+}
+
+function jsonToMovie(e) {
+    return {
+        id: e.id,
+        image: getTmdbImageFullPath(e.poster_path),
+        title: e.title,
+        rating: e.vote_average,
+        year: parseInt(e.release_date.substring(0, 4), 10),
+        description: e.overview,
+        isFavorited: false
+    };
+}
+
+function getTmdbImageFullPath(objectName) {
+    return IMAGE_PATH + objectName;
+}
+
+function limparFilmes() {
+    const moviesElement = document.getElementsByClassName('movies')[0];
+    limparConteudoDOMElement(moviesElement);
+}
+
+function limparConteudoDOMElement(element) {
+    element.replaceChildren();
 }
