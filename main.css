@@ -1,0 +1,65 @@
+body {
+    background-color: #17162E;
+}
+
+.movies {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.movie {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #1D1C3B;
+    font-family: "Kumbh Sans", serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #ACACAC;
+    margin: 1rem;
+}
+
+.movie-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+}
+
+.movie-image img {
+    border-radius: 50%;
+    width: auto;
+    height: 98px;
+    margin: 1.3rem;
+}
+
+.movie-title {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    color: #FFFFFF;
+}
+
+.movie-data {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: 400;
+    color: #FFFFFF;
+}
+
+.movie-data div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.movie-desc {
+    margin: 0 2rem 0 4rem;
+}
+
+.icon {
+    margin: 0 0.6rem 0 0;
+}
