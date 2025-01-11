@@ -48,6 +48,15 @@ window.addEventListener('load', (event) => {
             }
         }
     });
+
+    const searchIconElement = document.getElementsByClassName('searchIcon')[0];
+    searchIconElement.addEventListener('click', function (event) {
+        let searchString = document.getElementById('movie-name').value;
+        
+        if (searchString) {
+            pesquisar(searchString);
+        }
+    });
 });
 
 function pesquisar(titulo) {
@@ -202,7 +211,7 @@ function jsonToMovie(e) {
         image: getTmdbImageFullPath(e.poster_path),
         title: e.title,
         rating: e.vote_average,
-        year: parseInt(e.release_date.substring(0, 4), 10),
+        year: e.release_date ? parseInt(e.release_date.substring(0, 4), 10) : '-',
         description: e.overview,
         isFavorited: false
     };
