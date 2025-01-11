@@ -19,6 +19,14 @@ body {
     font-size: 18px;
     color: #ACACAC;
     margin: 1rem;
+    box-shadow: 0.33px 0.25px 2.42px 0px #00000007;
+    box-shadow: 1.44px 1.07px 4.57px 0px #0000000C;
+    box-shadow: 3.46px 2.59px 7.64px 0px #00000010;
+    box-shadow: 6.57px 4.91px 12.84px 0px #00000013;
+    box-shadow: 10.9px 8.15px 21.37px 0px #00000016;
+    box-shadow: 16.62px 12.43px 34.44px 0px #0000001A;
+    box-shadow: 23.89px 17.86px 53.25px 0px #0000001F;
+    box-shadow: 32.84px 24.55px 79px 0px #00000026;
 }
 
 .movie-image {
@@ -33,6 +41,7 @@ body {
     width: auto;
     height: 98px;
     margin: 1.3rem;
+    box-shadow: 20px 20px 30px 0px #0000004D;
 }
 
 .movie-title {
