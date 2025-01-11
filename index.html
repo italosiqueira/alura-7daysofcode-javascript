@@ -12,64 +12,19 @@
     <script src='main.js'></script>
 </head>
 <body>
-    <div class="movies">
-        <div class="movie">
-            <div class="movie-image">
-                <img src="img/avengers_endgame_2019.png" alt="Logo Avengers: Endgame">
-            </div>
-            <div class="movie-title">
-                <p>Avengers Endgame (2019)</p>
-                <div class="movie-data">
-                    <div class="movie-rating">
-                        <img src="img/star.svg" alt="Star" class="icon" > <span style="margin-right: 2rem;">9.4</span> 
-                    </div>
-                    <div class="movie-favorite">
-                        <img src="img/heart-empty.svg" alt="Empty Heart" class="icon" > <span>Favoritar</span>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-desc">
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-            </div>
+    <main>
+        <h2>Filmes Populares</h2>
+        <div class="input-container">
+          <input type="text" name="movie-name" id="movie-name" placeholder="Digite algum filme para pesquisar...">
+          <img src="img/search-icon.svg" alt="Ícone de pesquisa" class="searchIcon">
         </div>
-        <div class="movie">
-            <div class="movie-image">
-                <img src="img/batman_2022.png" alt="Logo Batman (2022)">
-            </div>
-            <div class="movie-title">
-                <p>Batman (2022)</p>
-                <div class="movie-data">
-                    <div class="movie-rating">
-                        <img src="img/star.svg" alt="Star" class="icon" > <span style="margin-right: 2rem;">9.4</span> 
-                    </div>
-                    <div class="movie-favorite">
-                        <img src="img/heart-empty.svg" alt="Empty Heart" class="icon" > <span>Favoritar</span>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-desc">
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-            </div>
+        <div class="showOnlyFavorites">
+          <input type="checkbox" name="onlyFavorites" id="onlyFavorites">
+          <label for="onlyFavorites">Mostrar apenas meus filmes favoritos</label>
         </div>
-        <div class="movie">
-            <div class="movie-image">
-                <img src="img/avatar_2009.png" alt="Logo Avatar (2009)">
-            </div>
-            <div class="movie-title">
-                <p>Avatar (2009)</p>
-                <div class="movie-data">
-                    <div class="movie-rating">
-                        <img src="img/star.svg" alt="Star" class="icon" > <span style="margin-right: 2rem;">9.4</span> 
-                    </div>
-                    <div class="movie-favorite">
-                        <img src="img/heart-empty.svg" alt="Empty Heart" class="icon" > <span>Favoritar</span>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-desc">
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-            </div>
+        <div class="movies">
+            
         </div>
-    </div>
+    </main>
 </body>
 </html>

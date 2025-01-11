@@ -26,7 +26,7 @@ const movies = [
   ]
 
 window.addEventListener('load', (event) => {
-    console.log('The page has fully loaded');
+    movies.forEach(movie => renderMovie(movie));
 });
 
 function renderMovie(movie) {
