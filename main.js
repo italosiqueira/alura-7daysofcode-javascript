@@ -1,3 +1,5 @@
+import API_KEY from "./tmdb_api.js"
+
 const movies = [
     {
         image: 'https://upload.wikimedia.org/wikipedia/en/1/17/Doctor_Strange_in_the_Multiverse_of_Madness_poster.jpg',
@@ -27,6 +29,8 @@ const movies = [
 
 window.addEventListener('load', (event) => {
     movies.forEach(movie => renderMovie(movie));
+
+    getPopularMovies();
 });
 
 function renderMovie(movie) {
@@ -100,4 +104,32 @@ function renderMovie(movie) {
     movieElement.appendChild(movieDescElement);
 
     moviesElement.appendChild(movieElement);
+}
+
+async function getPopularMovies() {
+
+    const url = 'https://api.themoviedb.org/3/movie/popular?' + new URLSearchParams({ language: "pt-BR", page: 1 }).toString();
+
+    var reqHeaders = new Headers();
+    reqHeaders.append("Accept", "application/json");
+    reqHeaders.append("Authorization", "Bearer " + API_KEY);
+
+    var reqInit = {
+        method: "GET",
+        headers: reqHeaders,
+        mode: "cors",
+        cache: "default",
+    }
+
+    var authRequest = new Request(url, reqInit);
+
+    fetch(authRequest)
+        .then( response => response.json())
+        .then( json => json.results.forEach((e, i) => console.log((i + 1) + '. ' + e.title)) )
+        .catch(
+            function (error) { 
+                console.log("There has been a problem with your fetch operation: " + error.message);
+            }
+        );
+
 }
