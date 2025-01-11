@@ -94,8 +94,9 @@ h2 {
 
 .movie-image img {
     border-radius: 50%;
-    width: auto;
-    height: 98px;
+    width: 92px;
+    height: 92px;
+    object-fit: cover;
     margin: 1.3rem;
     box-shadow: 20px 20px 30px 0px #0000004D;
 }
