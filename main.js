@@ -32,11 +32,15 @@ const movies = [
     }
   ]
 
+const moviesOnShow = []
+
 window.addEventListener('load', (event) => {
     // movies.forEach(movie => renderMovie(movie));
-    getPopularMovies().then(l => l.forEach(movie => renderMovie(movie)));
+    getPopularMovies().then( function(l) {
+        moviesOnShow.push(...l); 
+        moviesOnShow.forEach(movie => renderMovie(movie));
+    });
 
-    
     const searchInputElement = document.getElementById('movie-name');
     searchInputElement.addEventListener('keydown', function (event) {
         const keyName = event.key;
@@ -57,11 +61,63 @@ window.addEventListener('load', (event) => {
             pesquisar(searchString);
         }
     });
+
 });
+
+function getFavoriteMovies() {
+    var favoriteMovies = JSON.parse(localStorage.getItem('MyMovieDatabase_Favorites'));
+
+    if (favoriteMovies == null) 
+        favoriteMovies = [];
+
+    return favoriteMovies;
+}
+
+function saveToLocalStorage(movie) {
+    const movies = getFavoriteMovies(); // busca os filmes favoritados no Local Storage
+    movies.push(movie) // inclui o novo filme favorito no array
+
+
+    const moviesJSON = JSON.stringify(movies);
+    localStorage.setItem('MyMovieDatabase_Favorites', moviesJSON); // salva o array no Local Storage
+}
+
+function removeFromLocalStorage(movie) {
+    const movies = getFavoriteMovies();
+    
+    const moviesJSON = JSON.stringify(
+        movies.filter( e => e.title != movie.title)
+    );
+    localStorage.setItem('MyMovieDatabase_Favorites', moviesJSON)
+}
+
+function isFavorite(movie) {
+    const movies = getFavoriteMovies();
+
+    if (movies) {
+        return movies.filter(
+            favorite => favorite.title === movie.title
+        ).length > 0;
+    }
+
+    return false;
+}
+
+function favorite(movie) {
+    if (movie.isFavorited) {
+        saveToLocalStorage(movie);
+    } else {
+        removeFromLocalStorage(movie);
+    }
+}
 
 function pesquisar(titulo) {
     limparFilmes();
-    searchMoviesByTitle(titulo).then(l => l.forEach(movie => renderMovie(movie)));
+    moviesOnShow.splice(0);
+    searchMoviesByTitle(titulo).then(function(l) {
+        moviesOnShow.push(...l);
+        moviesOnShow.forEach(movie => renderMovie(movie));
+    });
 }
 
 function renderMovie(movie) {
@@ -112,10 +168,31 @@ function renderMovie(movie) {
     const favoriteImage = document.createElement('img');
     favoriteImage.src = movie.isFavorited ? 'img/heart.svg' : 'img/heart-empty.svg';
     favoriteImage.classList.add('icon');
+    favoriteImage.id = movie.id;
+
+    favoriteImage.addEventListener('click', function (event) {
+        let id = this.id;
+        
+        moviesOnShow.forEach(function(movie) {
+            if (movie.id == id) {
+                movie.isFavorited = !movie.isFavorited;
+                if (movie.isFavorited) {
+                    console.log(`Saved to Local Storage Favorites ${movie.title}`);
+                    document.getElementById(id).src = 'img/heart.svg';
+                    saveToLocalStorage(movie);
+                } else {
+                    console.log(`Deleted from Local Storage Favorites ${movie.title}`);
+                    document.getElementById(id).src = 'img/heart-empty.svg';
+                    removeFromLocalStorage(movie);
+                }
+            }
+        });
+    });
+
     movieFavoriteElement.appendChild(favoriteImage);
 
     const favorite = document.createElement('span');
-    favorite.textContent = movie.isFavorited ? 'Desfavoritar' : 'Favoritar';
+    favorite.textContent = 'Favoritar';
     movieFavoriteElement.appendChild(favorite);
 
     movieDataElement.appendChild(movieFavoriteElement);
@@ -160,7 +237,7 @@ async function getPopularMovies() {
         let json = await response.json();
         json.results.forEach(function (e, i) {
             let movie = jsonToMovie(e);
-
+            movie.isFavorited = isFavorite(movie);
             moviesTmdb.push(movie);
         });
     } catch (error) {
@@ -194,7 +271,7 @@ async function searchMoviesByTitle(title) {
         let json = await response.json();
         json.results.forEach(function (e, i) {
             let movie = jsonToMovie(e);
-
+            movie.isFavorited = isFavorite(movie);
             moviesTmdbFound.push(movie);
         });
     } catch (error) {
