@@ -62,7 +62,36 @@ window.addEventListener('load', (event) => {
         }
     });
 
+    const checkboxElement = document.getElementById("onlyFavorites");
+    checkboxElement.addEventListener("change", function(e) {
+        if (this.checked) {
+            showOnlyFavorite();
+        } else {
+            showMoviesOnlyIn(null);
+        }
+    });
+
 });
+
+function showOnlyFavorite() {
+    const favoriteMovies = getFavoriteMovies();
+
+    showMoviesOnlyIn(favoriteMovies);
+}
+
+function showMoviesOnlyIn(moviesOnShowSubset) {
+    limparFilmes();
+
+    if (moviesOnShowSubset) {
+        moviesOnShowSubset.forEach(function (movie) {
+            if (moviesOnShow.map(m => m.title).includes(movie.title)) {
+                renderMovie(movie);
+            }
+        });
+    } else {
+        moviesOnShow.forEach(movie => renderMovie(movie));
+    }
+}
 
 function getFavoriteMovies() {
     var favoriteMovies = JSON.parse(localStorage.getItem('MyMovieDatabase_Favorites'));
