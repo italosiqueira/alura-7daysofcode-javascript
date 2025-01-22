@@ -156,14 +156,7 @@ function renderMovie(movie) {
     const movieElement = document.createElement('div');
     movieElement.classList.add('movie');
     
-    const movieImageElement = document.createElement('div');
-    movieImageElement.classList.add('movie-image');
-    
-    const movieImage = document.createElement('img');
-    movieImage.src=movie.image;
-    movieImage.alt='Logo ' + movie.title;
-    movieImageElement.appendChild(movieImage);
-    movieElement.appendChild(movieImageElement);
+    movieElement.appendChild(renderMovieImageElement(movie));
     
     const movieTitleElement = document.createElement('div');
     movieTitleElement.classList.add('movie-title');
@@ -241,6 +234,18 @@ function renderMovie(movie) {
     movieElement.appendChild(movieDescElement);
 
     moviesElement.appendChild(movieElement);
+}
+
+function renderMovieImageElement(movie) {
+    const movieImageElement = document.createElement('div');
+    movieImageElement.classList.add('movie-image');
+    
+    const movieImage = document.createElement('img');
+    movieImage.src=movie.image;
+    movieImage.alt='Logo ' + movie.title;
+    movieImageElement.appendChild(movieImage);
+    
+    return movieImageElement;
 }
 
 async function getPopularMovies() {
