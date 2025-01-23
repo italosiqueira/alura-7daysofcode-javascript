@@ -158,6 +158,35 @@ function renderMovie(movie) {
     
     movieElement.appendChild(renderMovieImageElement(movie));
     
+    movieElement.appendChild(renderMovieTitleElement(movie));
+
+    const movieDescElement = document.createElement('div');
+    movieDescElement.classList.add('movie-desc');
+
+    const movieDesc = document.createElement('p');
+    movieDesc.textContent=movie.description;
+
+    movieDescElement.appendChild(movieDesc);
+
+    movieElement.appendChild(movieDescElement);
+
+    moviesElement.appendChild(movieElement);
+}
+
+function renderMovieImageElement(movie) {
+    const movieImageElement = document.createElement('div');
+    movieImageElement.classList.add('movie-image');
+    
+    const movieImage = document.createElement('img');
+    movieImage.src=movie.image;
+    movieImage.alt='Logo ' + movie.title;
+    movieImageElement.appendChild(movieImage);
+    
+    return movieImageElement;
+}
+
+renderMovieTitleElement(movie) {
+    
     const movieTitleElement = document.createElement('div');
     movieTitleElement.classList.add('movie-title');
     
@@ -220,32 +249,8 @@ function renderMovie(movie) {
     movieDataElement.appendChild(movieFavoriteElement);
 
     movieTitleElement.appendChild(movieDataElement);
-    
-    movieElement.appendChild(movieTitleElement);
 
-    const movieDescElement = document.createElement('div');
-    movieDescElement.classList.add('movie-desc');
-
-    const movieDesc = document.createElement('p');
-    movieDesc.textContent=movie.description;
-
-    movieDescElement.appendChild(movieDesc);
-
-    movieElement.appendChild(movieDescElement);
-
-    moviesElement.appendChild(movieElement);
-}
-
-function renderMovieImageElement(movie) {
-    const movieImageElement = document.createElement('div');
-    movieImageElement.classList.add('movie-image');
-    
-    const movieImage = document.createElement('img');
-    movieImage.src=movie.image;
-    movieImage.alt='Logo ' + movie.title;
-    movieImageElement.appendChild(movieImage);
-    
-    return movieImageElement;
+    return movieTitleElement;
 }
 
 async function getPopularMovies() {
