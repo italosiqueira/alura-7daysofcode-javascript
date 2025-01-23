@@ -153,6 +153,34 @@ function renderMovie(movie) {
 
     const moviesElement = document.getElementsByClassName('movies')[0];
 
+    moviesElement.appendChild(renderMovieElement(movie));
+}
+
+function renderMovieImageElement(movie) {
+    const movieImageElement = document.createElement('div');
+    movieImageElement.classList.add('movie-image');
+    
+    const movieImage = document.createElement('img');
+    movieImage.src=movie.image;
+    movieImage.alt='Logo ' + movie.title;
+    movieImageElement.appendChild(movieImage);
+    
+    return movieImageElement;
+}
+
+function renderMovieDescElement(movie) {
+    const movieDescElement = document.createElement('div');
+    movieDescElement.classList.add('movie-desc');
+
+    const movieDesc = document.createElement('p');
+    movieDesc.textContent=movie.description;
+
+    movieDescElement.appendChild(movieDesc);
+
+    return movieDescElement;
+}
+
+function renderMovieElement(movie) {
     const movieElement = document.createElement('div');
     movieElement.classList.add('movie');
     
@@ -225,31 +253,7 @@ function renderMovie(movie) {
 
     movieElement.appendChild(renderMovieDescElement(movie));
 
-    moviesElement.appendChild(movieElement);
-}
-
-function renderMovieImageElement(movie) {
-    const movieImageElement = document.createElement('div');
-    movieImageElement.classList.add('movie-image');
-    
-    const movieImage = document.createElement('img');
-    movieImage.src=movie.image;
-    movieImage.alt='Logo ' + movie.title;
-    movieImageElement.appendChild(movieImage);
-    
-    return movieImageElement;
-}
-
-function renderMovieDescElement(movie) {
-    const movieDescElement = document.createElement('div');
-    movieDescElement.classList.add('movie-desc');
-
-    const movieDesc = document.createElement('p');
-    movieDesc.textContent=movie.description;
-
-    movieDescElement.appendChild(movieDesc);
-
-    return movieDescElement;
+    return movieElement;
 }
 
 async function getPopularMovies() {
