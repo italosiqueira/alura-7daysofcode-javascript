@@ -223,15 +223,7 @@ function renderMovie(movie) {
     
     movieElement.appendChild(movieTitleElement);
 
-    const movieDescElement = document.createElement('div');
-    movieDescElement.classList.add('movie-desc');
-
-    const movieDesc = document.createElement('p');
-    movieDesc.textContent=movie.description;
-
-    movieDescElement.appendChild(movieDesc);
-
-    movieElement.appendChild(movieDescElement);
+    movieElement.appendChild(renderMovieDescElement(movie));
 
     moviesElement.appendChild(movieElement);
 }
@@ -246,6 +238,18 @@ function renderMovieImageElement(movie) {
     movieImageElement.appendChild(movieImage);
     
     return movieImageElement;
+}
+
+function renderMovieDescElement(movie) {
+    const movieDescElement = document.createElement('div');
+    movieDescElement.classList.add('movie-desc');
+
+    const movieDesc = document.createElement('p');
+    movieDesc.textContent=movie.description;
+
+    movieDescElement.appendChild(movieDesc);
+
+    return movieDescElement;
 }
 
 async function getPopularMovies() {
