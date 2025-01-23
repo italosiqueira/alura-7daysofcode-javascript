@@ -175,6 +175,28 @@ function renderMovie(movie) {
     const movieDataElement = document.createElement('div');
     movieDataElement.classList.add('movie-data');
     
+    movieDataElement.appendChild(renderMovieRatingElement(movie));
+
+    movieDataElement.appendChild(renderMovieFavoriteElement(movie));
+
+    movieTitleElement.appendChild(movieDataElement);
+    
+    movieElement.appendChild(movieTitleElement);
+
+    const movieDescElement = document.createElement('div');
+    movieDescElement.classList.add('movie-desc');
+
+    const movieDesc = document.createElement('p');
+    movieDesc.textContent=movie.description;
+
+    movieDescElement.appendChild(movieDesc);
+
+    movieElement.appendChild(movieDescElement);
+
+    moviesElement.appendChild(movieElement);
+}
+
+function renderMovieRatingElement(movie) {
     const movieRatingElement = document.createElement('div');
     movieRatingElement.classList.add('movie-rating');
     
@@ -188,9 +210,11 @@ function renderMovie(movie) {
     rating.textContent=movie.rating;
     rating.style='margin-right: 2rem';
     movieRatingElement.appendChild(rating);
-    
-    movieDataElement.appendChild(movieRatingElement);
 
+    return movieRatingElement;
+}
+
+function renderMovieFavoriteElement(movie) {
     const movieFavoriteElement = document.createElement('div');
     movieFavoriteElement.classList.add('movie-favorite');
     
@@ -224,23 +248,7 @@ function renderMovie(movie) {
     favorite.textContent = 'Favoritar';
     movieFavoriteElement.appendChild(favorite);
 
-    movieDataElement.appendChild(movieFavoriteElement);
-
-    movieTitleElement.appendChild(movieDataElement);
-    
-    movieElement.appendChild(movieTitleElement);
-
-    const movieDescElement = document.createElement('div');
-    movieDescElement.classList.add('movie-desc');
-
-    const movieDesc = document.createElement('p');
-    movieDesc.textContent=movie.description;
-
-    movieDescElement.appendChild(movieDesc);
-
-    movieElement.appendChild(movieDescElement);
-
-    moviesElement.appendChild(movieElement);
+    return movieFavoriteElement;
 }
 
 async function getPopularMovies() {
