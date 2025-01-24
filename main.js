@@ -193,18 +193,6 @@ function renderMovieElement(movie) {
     return movieElement;
 }
 
-function renderMovieImageElement(movie) {
-    const movieImageElement = document.createElement('div');
-    movieImageElement.classList.add('movie-image');
-    
-    const movieImage = document.createElement('img');
-    movieImage.src=movie.image;
-    movieImage.alt='Logo ' + movie.title;
-    movieImageElement.appendChild(movieImage);
-    
-    return movieImageElement;
-}
-
 function renderMovieTitleElement(movie) {
     
     const movieTitleElement = document.createElement('div');
@@ -217,6 +205,16 @@ function renderMovieTitleElement(movie) {
     const movieDataElement = document.createElement('div');
     movieDataElement.classList.add('movie-data');
     
+    movieDataElement.appendChild(renderMovieRatingElement(movie));
+
+    movieDataElement.appendChild(renderMovieFavoriteElement(movie));
+
+    movieTitleElement.appendChild(movieDataElement);
+    
+    return movieTitleElement;
+}
+
+function renderMovieRatingElement(movie) {
     const movieRatingElement = document.createElement('div');
     movieRatingElement.classList.add('movie-rating');
     
@@ -230,9 +228,11 @@ function renderMovieTitleElement(movie) {
     rating.textContent=movie.rating;
     rating.style='margin-right: 2rem';
     movieRatingElement.appendChild(rating);
-    
-    movieDataElement.appendChild(movieRatingElement);
 
+    return movieRatingElement;
+}
+
+function renderMovieFavoriteElement(movie) {
     const movieFavoriteElement = document.createElement('div');
     movieFavoriteElement.classList.add('movie-favorite');
     
@@ -266,11 +266,7 @@ function renderMovieTitleElement(movie) {
     favorite.textContent = 'Favoritar';
     movieFavoriteElement.appendChild(favorite);
 
-    movieDataElement.appendChild(movieFavoriteElement);
-
-    movieTitleElement.appendChild(movieDataElement);
-
-    return movieTitleElement;
+    return movieFavoriteElement;
 }
 
 async function getPopularMovies() {
